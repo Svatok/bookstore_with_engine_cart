@@ -15,7 +15,7 @@ class ProductPresenter < Rectify::Presenter
     product.reviews.approved.decorate
   end
 
-  # def order_item
-  #   current_order.order_items.new
-  # end
+  def order_item
+    current_order.order_items.new
+  end
 end

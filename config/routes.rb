@@ -22,6 +22,10 @@ Rails.application.routes.draw do
     resource :product do
       resources :reviews
     end
+    
+    mount EngineCart::Engine, at: "/cart"
+    get '/orders', :to => 'engine_cart/orders#index', :as => :orders
+    get '/orders/:id', :to => 'engine_cart/orders#show', :as => :order
 
     get '/:locale' => 'main_pages#home'
     root 'main_pages#home'

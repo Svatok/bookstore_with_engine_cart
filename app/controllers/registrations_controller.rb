@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   include Rectify::ControllerHelpers
-  # before_action :prepare_address, only: [:edit, :update]
+  before_action :prepare_address, only: [:edit, :update]
 
   def update
     super do
@@ -31,17 +31,17 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def prepare_address
-    # @countries = Country.all
-    # present AddressPresenter.new(object: @user)
+    @countries = EngineCart::Country.all
+    present EngineCart::AddressPresenter.new(object: @user)
   end
 
   def update_address
-    # SetAddress.call({ object: current_user, params: params }) do
-    #   on(:ok) do
-    #     flash[:success] = 'Address has been updated.'
+    EngineCart::SetAddress.call({ object: current_user, params: params }) do
+      on(:ok) do
+        flash[:success] = 'Address has been updated.'
         redirect_to edit_user_registration_path
-    #   end
-    #   on(:invalid) { |object_with_errors| expose(object: object_with_errors) and return render :edit }
-    # end
+      end
+      on(:invalid) { |object_with_errors| expose(object: object_with_errors) and return render :edit }
+    end
   end
 end

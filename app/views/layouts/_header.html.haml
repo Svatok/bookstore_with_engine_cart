@@ -6,17 +6,17 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand{href: root_path} BookStore
-      // %a.shop-link.pull-right.visible-xs{href: cart_path}
+      %a.navbar-brand{href: main_app.root_path} BookStore
       %a.shop-link.pull-right.visible-xs{href: '#'}
+      %a.shop-link.pull-right.visible-xs{href: engine_cart.cart_path}
         %span.shop-icon<
-          // - unless current_order.order_items.empty?
-          //   %span.shop-quantity= current_order.order_items.only_products.count
-    // %a.shop-link.pull-right.hidden-xs{href: cart_path}
-    %a.shop-link.pull-right.hidden-xs{href: '#'}
+          - unless current_order.order_items.empty?
+            %span.shop-quantity= current_order.order_items.only_products.count
+    // %a.shop-link.pull-right.hidden-xs{href: '#'}
+    %a.shop-link.pull-right.hidden-xs{href: engine_cart.cart_path}
       %span.shop-icon<
-        // - if current_order.order_items.present?
-        //   %span.shop-quantity= current_order.order_items.only_products.count
+        - if current_order.order_items.present?
+          %span.shop-quantity= current_order.order_items.only_products.count
     #navbar.navbar-collapse.collapse.pl-30{'aria-expanded': "false"}
       .visible-xs
         %button.close{type: "button", 'aria-label': "Close"}
@@ -27,7 +27,7 @@
             %ul#menu.collapse.list-unstyled.pl-30.mb-10{'aria-expanded': "false"}
               - @categories.each do |category|
                 %li
-                  %a.collapse-link{href: root_path(:category => category)}= category.name
+                  %a.collapse-link{href: main_app.root_path(:category => category)}= category.name
           %li
             %a{href: products_path} Shop
           - if signed_in?
@@ -35,8 +35,8 @@
               %a{type: "button", 'data-toggle': "collapse", href: "#menu_account", 'aria-expanded': "false", 'aria-controls': "menu"} My account
               %ul#menu_account.collapse.list-unstyled.pl-30.mb-10{'aria-expanded': "false"}
                 %li
-                  // %a.collapse-link{href: orders_path} Orders
-                  %a.collapse-link{href: '#'} Orders
+                  // %a.collapse-link{href: '#'} Orders
+                  %a.collapse-link{href: orders_path} Orders
                 %li
                   %a.collapse-link{href: edit_user_registration_path} Settings
                 - if current_user.role?(:admin)
@@ -56,7 +56,7 @@
             %ul.dropdown-menu
               - @categories.each do |category|
                 %li
-                  %a{href: root_path(:category => category)}= category.name
+                  %a{href: main_app.root_path(:category => category)}= category.name
           %li.dropdown
             %a{href: products_path} Shop
           - if signed_in?
@@ -64,8 +64,8 @@
               %a.dropdown-toggle{href: "#", 'data-toggle': "dropdown", role: "button", 'aria-haspopup': "true", 'aria-expanded': "false"} My account
               %ul.dropdown-menu
                 %li
-                  // %a{href: orders_path} Orders
-                  %a{href: '#'} Orders
+                  // %a{href: '#'} Orders
+                  %a{href: orders_path} Orders
                 %li
                   %a{href: edit_user_registration_path} Settings
                 - if current_user.role?(:admin)

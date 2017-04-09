@@ -2,9 +2,9 @@ class User < ApplicationRecord
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  # has_many :addresses, as: :addressable, dependent: :destroy
+  has_many :addresses, class_name: 'EngineCart::Address', as: :addressable, dependent: :destroy
   has_many :reviews, dependent: :destroy
-  # has_many :orders, dependent: :destroy
+  has_many :orders, class_name: 'EngineCart::Order', dependent: :destroy
   has_many :pictures, as: :imageable, dependent: :destroy
   has_many :identities, dependent: :destroy
 

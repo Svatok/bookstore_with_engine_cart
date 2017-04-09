@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale, :categories
-  # helper_method :current_order
+  helper EngineCart::Engine.helpers
+  # include Rails.application.routes.url_helpers Try this when refactoring
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_url, alert: exception.message

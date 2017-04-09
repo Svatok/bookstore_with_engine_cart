@@ -15,5 +15,5 @@
 //= require jquery_ujs
 //= require jquery.shorten.2.0
 //= require turbolinks
+//= require engine_cart
 //= require_tree .
-hljs.initHighlightingOnLoad();
