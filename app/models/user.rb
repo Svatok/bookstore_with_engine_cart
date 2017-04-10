@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :pictures, as: :imageable, dependent: :destroy
   has_many :identities, dependent: :destroy
 
+  delegate :avatar, to: :pictures
+  
   attr_accessor :skip_password_validation
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -37,7 +39,7 @@ class User < ApplicationRecord
     user = signed_in_resource ? signed_in_resource : identity.user
     if user.nil?
       email = auth.info.email
-      user = User.where(:email => email).first if email.present?
+      user = User.find_by(email: email).try(:first) if email.present?
       user = create_new_user(email, auth) if user.nil?
     end
     set_identity(identity, user)
@@ -51,7 +53,7 @@ class User < ApplicationRecord
   private
 
   def self.set_identity(identity, user)
-    return if identity.user == user.id
+    return if identity.user == user
     identity.user = user
     identity.save!
   end
@@ -72,8 +74,8 @@ class User < ApplicationRecord
   def self.address_params(name)
     name = name.split(' ')
     first_name = name.first
-    last_name = name.last.present? ? name.last : ''
-    {first_name: first_name, last_name: last_name, address_type: 'billing'}
+    last_name = name.last.to_s
+    { first_name: first_name, last_name: last_name, address_type: 'billing' }
   end
 
   def set_default_role

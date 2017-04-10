@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale, :categories
   helper EngineCart::Engine.helpers
-  # include Rails.application.routes.url_helpers Try this when refactoring
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_url, alert: exception.message
@@ -14,12 +13,6 @@ class ApplicationController < ActionController::Base
     flash[:alert] = 'You are not authorized to access this resource!'
     redirect_to root_path
   end
-
-  # def current_order
-  #   order = Order.find_by(id: session[:order_id]) unless session[:order_id].nil?
-  #   order ||= Order.new
-  #   # session[:order_id].nil? ? Order.new : Order.find(session[:order_id])
-  # end
 
   def ensure_signup_complete
     return if action_name == 'finish_signup'

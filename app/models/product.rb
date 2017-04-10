@@ -17,8 +17,13 @@ class Product < ApplicationRecord
   scope :lattest_products, ->(products_count) { order(created_at: :desc).limit(products_count) }
   scope :best_sellers, -> { joins(:orders).group('engine_cart_order_items.product_id', 'products.id')
                                             .order('SUM(engine_cart_order_items.quantity) desc') }
-  # scope :best_sellers, -> { in_stock }
   scope :with_category, ->(category) { in_stock.where(category: category) }
+  scope :newest, -> { order(created_at: :desc) }
+  scope :popular, -> { best_sellers }
+  scope :price_asc, -> { joins(sort_price_sql).order('p.value ASC') }
+  scope :price_desc, -> { joins(sort_price_sql).order('p.value DESC') }
+  scope :title_asc, -> { order(title: :asc) }
+  scope :title_desc, -> { order(title: :desc) }
 
   def self.ransackable_scopes(auth_object = nil)
     [:select_product_type, :main, :coupons, :shippings, :with_category]
@@ -36,5 +41,17 @@ class Product < ApplicationRecord
                                AND a.value > 0
                   ) as s
       ON products.id = s.product_id"
+  end
+
+  def self.sort_price_sql
+    "INNER JOIN (SELECT a.* FROM prices as a
+                                  WHERE EXISTS (SELECT 1 FROM prices as b
+                                                  WHERE a.priceable_id = b.priceable_id
+                                                    AND a.priceable_type = b.priceable_type
+                                                    AND b.priceable_type = 'Product'
+                                                    AND b.date_start <= '#{Date.today}'
+                                                  HAVING MAX(b.date_start) = a.date_start)
+                                ) as p
+                                ON products.id = p.priceable_id"
   end
 end
