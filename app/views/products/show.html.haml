@@ -17,7 +17,7 @@
       .row
         .col-xs-12.col-md-4
           %p.h1.in-gold-500.mt-10= number_to_currency(presenter.product.price_value)
-        = form_tag cart_path,  method: :put do |f|
+        = form_tag engine_cart.cart_path,  method: :put do |f|
           = fields_for 'order_item', presenter.order_item do |field_item|
             .col-xs-5.col-md-3
               .input-group.general-position

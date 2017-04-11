@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :order do
+  factory :order, class: EngineCart::Order do
 
     trait :with_items do
       after(:create) do |order|

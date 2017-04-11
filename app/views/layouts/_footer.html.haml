@@ -4,7 +4,7 @@
       .col-sm-9
         %ul.list-inline.general-align.mb-25
           %li
-            %a.nav-link{href: root_path}= t('.home')
+            %a.nav-link{href: main_app.root_path}= t('.home')
           %li
             %a.nav-link{href: products_path}= t('.shop')
           - if signed_in?

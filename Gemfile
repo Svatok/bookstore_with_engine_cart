@@ -68,6 +68,7 @@ group :test do
   gem 'poltergeist'
   gem 'selenium-webdriver', '2.53.4'
   gem 'rack_session_access'
+  gem 'wisper-rspec'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -77,7 +78,7 @@ gem 'thor', '0.19.1'
 # other gems
 gem 'haml'
 gem 'activemodel-serializers-xml', git: 'https://github.com/rails/activemodel-serializers-xml'
-# gem 'draper', github: 'audionerd/draper', branch: 'rails5'
+gem 'draper', '3.0.0.pre1'
 gem 'seed_dump'
 gem 'rectify'
 gem 'kaminari'

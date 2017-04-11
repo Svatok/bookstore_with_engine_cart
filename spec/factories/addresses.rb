@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :address do
+  factory :address, class: EngineCart::Address do
     first_name FFaker::Name.first_name
     last_name FFaker::Name.last_name
     address FFaker::Address.street_name

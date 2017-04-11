@@ -7,11 +7,11 @@
         %span.icon-bar
         %span.icon-bar
       %a.navbar-brand{href: root_path} BookStore
-      %a.shop-link.pull-right.visible-xs{href: cart_path}
+      %a.shop-link.pull-right.visible-xs{href: engine_cart.cart_path}
         %span.shop-icon<
           - unless current_order.order_items.empty?
             %span.shop-quantity= current_order.order_items.only_products.count
-    %a.shop-link.pull-right.hidden-xs{href: cart_path}
+    %a.shop-link.pull-right.hidden-xs{href: engine_cart.cart_path}
       %span.shop-icon<
         - if current_order.order_items.present?
           %span.shop-quantity= current_order.order_items.only_products.count
@@ -25,7 +25,7 @@
             %ul#menu.collapse.list-unstyled.pl-30.mb-10{'aria-expanded': "false"}
               - @categories.each do |category|
                 %li
-                  %a.collapse-link{href: root_path(:category => category)}= category.name
+                  %a.collapse-link{href: main_app.root_path(:category => category)}= category.name
           %li
             %a{href: products_path}= t('.shop')
           - if signed_in?
@@ -53,7 +53,7 @@
             %ul.dropdown-menu
               - @categories.each do |category|
                 %li
-                  %a{href: root_path(:category => category)}= category.name
+                  %a{href: main_app.root_path(:category => category)}= category.name
           %li.dropdown
             %a{href: products_path}= t('.shop')
           - if signed_in?
