@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312100152) do
+ActiveRecord::Schema.define(version: 20170411075456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,63 @@ ActiveRecord::Schema.define(version: 20170312100152) do
     t.datetime "updated_at",  null: false
     t.index ["product_id"], name: "index_characteristics_on_product_id", using: :btree
     t.index ["property_id"], name: "index_characteristics_on_property_id", using: :btree
+  end
+
+  create_table "engine_cart_addresses", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "zip"
+    t.integer  "country_id"
+    t.string   "phone"
+    t.string   "address_type"
+    t.string   "addressable_type"
+    t.integer  "addressable_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["addressable_type", "addressable_id"], name: "addressable_index", using: :btree
+    t.index ["country_id"], name: "index_engine_cart_addresses_on_country_id", using: :btree
+  end
+
+  create_table "engine_cart_countries", force: :cascade do |t|
+    t.string   "name"
+    t.string   "phone_number"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "engine_cart_order_items", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "order_id"
+    t.float    "unit_price"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_engine_cart_order_items_on_order_id", using: :btree
+  end
+
+  create_table "engine_cart_orders", force: :cascade do |t|
+    t.integer  "user_id"
+    t.float    "total_price"
+    t.string   "state",        default: "cart"
+    t.string   "prev_state"
+    t.string   "order_number"
+    t.date     "placed_date"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["user_id"], name: "index_engine_cart_orders_on_user_id", using: :btree
+  end
+
+  create_table "engine_cart_payments", force: :cascade do |t|
+    t.string   "card_number"
+    t.string   "name_on_card"
+    t.string   "mm_yy"
+    t.integer  "cvv"
+    t.integer  "order_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["order_id"], name: "index_engine_cart_payments_on_order_id", using: :btree
   end
 
   create_table "identities", force: :cascade do |t|
